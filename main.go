@@ -26,7 +26,7 @@ func readLines(path string) ([]string, error) {
 }
 
 func writeLines(lines []string, path string) error {
-	file, err := os.Create(path)
+	file, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666) //os.Create(path)
 	if err != nil {
 		return err
 	}
@@ -50,7 +50,7 @@ func writeLines(lines []string, path string) error {
 
 func main() {
 	inputFile := os.Args[1]
-	//outputFile := os.Args[2]
+	outputFile := os.Args[2]
 	lines, err := readLines(inputFile)
 	if err != nil {
 		log.Fatalf("readLines: %s", err)
@@ -58,8 +58,8 @@ func main() {
 	for i, line := range lines {
 		fmt.Println(i, line)
 	}
-
-	if err := writeLines(lines, "res.txt"); err != nil {
+	var text string = outputFile + "res.txt"
+	if err := writeLines(lines, text); err != nil {
 		log.Fatalf("writeLines: %s", err)
 	}
 }
