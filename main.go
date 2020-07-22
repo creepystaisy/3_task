@@ -1,75 +1,72 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
-	"io"
+	"log"
 	"net/http"
 	"os"
 )
 
-// this is a comment
-func readFile() string { //функция считывающая урлы
-	fileRead, err := os.Open("url.txt") //открываем файл с урлами
-
-	if err != nil { // если возникла ошибка
-		fmt.Println(err)
-		os.Exit(1) // выходим из программы
-	}
-
-	defer fileRead.Close()
-
-	data := make([]byte, 64)
-	var x string
-	for {
-		n, err := fileRead.Read(data)
-		if err == io.EOF { // если конец файла
-			break // выходим из цикла
-		}
-		//fmt.Print(string(data[:n]))
-		//fmt.Println(fileRead.Name()) // просто проверка
-		x = string(data[:n])
-	} // закрываем файл
-	return x
-}
-
-func create(name string) {
-	file, err := os.Create(name) // создаем файл
-	if err != nil {              // если возникла ошибка
-		fmt.Println("Unable to create file:", err)
-		os.Exit(1) // выходим из программы
-	}
-	defer file.Close() // закрываем файл
-	file.WriteString(parsing(readFile()))
-
-	//fmt.Println(file.Name())               // hello.txt
-
-	//file.WriteString(text)
-}
-
-func parsing(url string) string {
-	fmt.Println(url)
-	resp, err := http.Get(url)
+func readLines(path string) ([]string, error) {
+	file, err := os.Open(path)
 	if err != nil {
-		fmt.Println(err)
-
+		return nil, err
 	}
-	defer resp.Body.Close()
-	var z string
-	for true {
+	defer file.Close()
 
-		bs := make([]byte, 1014)
-		n, err := resp.Body.Read(bs)
-		z = (string(bs[:n]))
+	var lines []string
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
+	}
+	//length = len(lines)
+	return lines, scanner.Err()
+}
 
-		if n == 0 || err != nil {
-			break
+func writeLines(lines []string, path string) error {
+	for i := 0; i < len(lines); i++ {
+		resp, err := http.Get(lines[i])
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+		defer resp.Body.Close()
+		for true {
+
+			bs := make([]byte, 1014)
+			n, err := resp.Body.Read(bs)
+			lines[i] = string(bs[:n])
+
+			if n == 0 || err != nil {
+				break
+			}
 		}
 	}
-	return z
+
+	file, err := os.Create(path)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	w := bufio.NewWriter(file)
+	for _, line := range lines {
+		fmt.Fprintln(w, line)
+	}
+	return w.Flush()
 }
 
 func main() {
-	fmt.Println("hell")
-	create("res.txt")
+	lines, err := readLines("url.txt")
+	if err != nil {
+		log.Fatalf("readLines: %s", err)
+	}
+	for i, line := range lines {
+		fmt.Println(i, line)
+	}
 
+	if err := writeLines(lines, "res.txt"); err != nil {
+		log.Fatalf("writeLines: %s", err)
+	}
 }

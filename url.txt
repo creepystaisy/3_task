@@ -1,1 +1,2 @@
-https://metanit.com/go/tutorial/8.2.php
+https://learn.javascript.ru/prototype-inheritance
+https://dev-gang.ru/article/golang-making-http-requests/

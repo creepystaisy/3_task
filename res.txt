@@ -1,15 +1,15 @@
-ss="section">
-			<div class="container">
-				<h1><span></span>Запрос небезопасен и был отвергнут.</h1>
-				<p>
-					Более подробно с причинами возникновения подобной ошибки можно ознакомиться в нашем <a href="https://help.sweb.ru/entry/234/">разделе помощи</a>. <br>
-					Если это Ваш сайт, пожалуйста, свяжитесь с отделом технической поддержки по адресу <a href="mailto:support@sweb.ru">support@sweb.ru</a> или по телефонам в Санкт-Петербурге (812) 334-12-22, Москве (495) 663-16-12 и по номеру бесплатной горячей линии по России 8 (800) 100-16-15.
-				</p>
-			</div>
-		</section>
-		<div class="hfooter"></div>
-	</div>
-	
-	<footer class="footer"></footer>
-</body>
+
+t?t26.6;r"+
+    escape(document.referrer)+((typeof(screen)=="undefined")?"":
+    ";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+    screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+    ";h"+escape(document.title.substring(0,150))+";"+Math.random()+
+    "' alt='' title='LiveInternet: показано число посетителей за"+
+    " сегодня' "+
+    "border='0' width='88' height='15'><\/a>")
+    </script><!--/LiveInternet-->
+</div>
+        
+
+    </body>
 </html>
