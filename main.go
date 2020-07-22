@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -25,6 +26,12 @@ func readLines(path string) ([]string, error) {
 }
 
 func writeLines(lines []string, path string) error {
+	file, err := os.Create(path)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+	w := bufio.NewWriter(file)
 	for i := 0; i < len(lines); i++ {
 		resp, err := http.Get(lines[i])
 		if err != nil {
@@ -32,25 +39,9 @@ func writeLines(lines []string, path string) error {
 			os.Exit(1)
 		}
 		defer resp.Body.Close()
-		for true {
-
-			bs := make([]byte, 1014)
-			n, err := resp.Body.Read(bs)
-			lines[i] = string(bs[:n])
-
-			if n == 0 || err != nil {
-				break
-			}
-		}
+		io.Copy(w, resp.Body)
 	}
 
-	file, err := os.Create(path)
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-
-	w := bufio.NewWriter(file)
 	for _, line := range lines {
 		fmt.Fprintln(w, line)
 	}
@@ -58,7 +49,9 @@ func writeLines(lines []string, path string) error {
 }
 
 func main() {
-	lines, err := readLines("url.txt")
+	inputFile := os.Args[1]
+	//outputFile := os.Args[2]
+	lines, err := readLines(inputFile)
 	if err != nil {
 		log.Fatalf("readLines: %s", err)
 	}
