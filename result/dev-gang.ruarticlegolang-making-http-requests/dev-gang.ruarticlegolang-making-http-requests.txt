@@ -365,7 +365,7 @@ func MakeRequest() {
 		C343.725,302.225,302.225,343.725,251.125,347.025z M248.025,299.625c-33.4,2.1-61-25.4-58.8-58.8c1.7-27.6,24.1-49.9,51.7-51.7
 		c33.4-2.1,61,25.4,58.8,58.8C297.925,275.625,275.525,297.925,248.025,299.625z"/>
 </svg>
-        8639
+        8641
     </div>
 
     <div class="article-meta__item _visits">
@@ -582,15 +582,15 @@ func MakeRequest() {
 
                     
                     <div>
-                        <a href="/article/5-osnovnyh-bibliotek-dlja-vashego-sleduusczego-prilozhenija-react-kyksbzt51j/">5 основных библиотек для вашего следующего приложения React </a>
+                        <a href="/article/czto-luczshe-dlja-vashego-sleduusczego-prilozhenija-angular-ili-react-poczemu-ne-oba-86intxeon8/">Что лучше для вашего следующего приложения - Angular или React? Почему не оба? </a>
                     </div>
                     
                     <div>
-                        <a href="/article/mnogopotocznost-v-python-t2bkyunvku/">Многопоточность в Python</a>
+                        <a href="/article/clickjacking-chto-eto-i-kak-borotsya/">Clickjacking - что это и как бороться</a>
                     </div>
                     
                     <div>
-                        <a href="/article/shablon-css-grid-v-deistvii-bd68svj810/">Шаблон CSS Grid в действии</a>
+                        <a href="/article/go-ponjat-dizain-syncpool-cpvecztx8e/">Go: понять дизайн Sync.Pool </a>
                     </div>
                     
                 </div>
@@ -723,5 +723,4 @@ func MakeRequest() {
 </svg>
     </a>
     <a href="https://t.me/devgang" class="social__link _tg" target="_blank">
-        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 300 300" style="enable-backg
+        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x=

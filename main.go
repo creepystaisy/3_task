@@ -7,7 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"strconv"
+	"strings"
 )
 
 func readLines(path string) ([]string, error) {
@@ -25,7 +25,14 @@ func readLines(path string) ([]string, error) {
 	//length = len(lines)
 	return lines, scanner.Err()
 }
-
+func workWithString(a string) string {
+	s := strings.Split(a, "/")
+	str := strings.Join(s, "")
+	s = strings.Split(str, "https:")
+	a = strings.Join(s, "")
+	fmt.Print(a)
+	return a
+}
 func writeLines(lines []string, path string) /*error*/ {
 	var makedDir string
 
@@ -36,7 +43,8 @@ func writeLines(lines []string, path string) /*error*/ {
 			continue
 			//return err
 		}
-		a := strconv.Itoa(i)
+		a := lines[i]
+		a = workWithString(a)
 		makedDir = path + "/" + a
 		os.MkdirAll(makedDir, 0644)
 		openedDir := path + "/" + a + "/" + a + ".txt"
