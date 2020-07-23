@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 )
 
 func readLines(path string) ([]string, error) {
@@ -25,30 +26,41 @@ func readLines(path string) ([]string, error) {
 	return lines, scanner.Err()
 }
 
-func writeLines(lines []string, path string) error {
-	file, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666) //os.Create(path)
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-	w := bufio.NewWriter(file)
+func writeLines(lines []string, path string) /*error*/ {
+	var makedDir string
+
 	for i := 0; i < len(lines); i++ {
 		resp, err := http.Get(lines[i])
 		if err != nil {
 			fmt.Println(err)
-			os.Exit(1)
+			continue
+			//return err
 		}
-		defer resp.Body.Close()
+		a := strconv.Itoa(i)
+		makedDir = path + "/" + a
+		os.MkdirAll(makedDir, 0644)
+		openedDir := path + "/" + a + "/" + a + ".txt"
+		file, err := os.OpenFile(openedDir, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666) //os.Create(path)
+		if err != nil {
+			fmt.Println(err)
+			continue
+			//return err
+		}
+		defer file.Close()
+		w := bufio.NewWriter(file)
 		io.Copy(w, resp.Body)
+		defer resp.Body.Close()
+
 	}
 
-	for _, line := range lines {
-		fmt.Fprintln(w, line)
-	}
-	return w.Flush()
+	// for _, line := range lines {
+	// 	fmt.Fprintln(w, line)
+	// }
+	//return w.Flush()
 }
 
 func main() {
+	//использавать библ флаг
 	inputFile := os.Args[1]
 	outputFile := os.Args[2]
 	lines, err := readLines(inputFile)
@@ -58,8 +70,9 @@ func main() {
 	for i, line := range lines {
 		fmt.Println(i, line)
 	}
-	var text string = outputFile + "res.txt"
-	if err := writeLines(lines, text); err != nil {
-		log.Fatalf("writeLines: %s", err)
-	}
+	writeLines(lines, outputFile)
+	//var text string = outputFile + "res.txt"
+	//if err := writeLines(lines, outputFile); err != nil {
+	//	log.Fatalf("writeLines: %s", err)
+	//}
 }
