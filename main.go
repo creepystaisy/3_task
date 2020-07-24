@@ -2,13 +2,18 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
 	"os"
+	"path"
 	"strings"
 )
+
+var name *string = flag.String("name", "name", "строка")
+var put *string = flag.String("put", "put", "f - вперёд, b - назад")
 
 func readLines(path string) ([]string, error) {
 	file, err := os.Open(path)
@@ -33,7 +38,7 @@ func workWithString(a string) string {
 	fmt.Print(a)
 	return a
 }
-func writeLines(lines []string, path string) /*error*/ {
+func writeLines(lines []string, path1 string) /*error*/ {
 	var makedDir string
 
 	for i := 0; i < len(lines); i++ {
@@ -45,9 +50,11 @@ func writeLines(lines []string, path string) /*error*/ {
 		}
 		a := lines[i]
 		a = workWithString(a)
-		makedDir = path + "/" + a
+		makedDir = path.Join(path1, "/")
+		makedDir = path.Join(makedDir, a) // path.Join(p1, p2)
 		os.MkdirAll(makedDir, 0644)
-		openedDir := path + "/" + a + "/" + a + ".txt"
+		openedDir := path.Join(path.Join(path.Join(path1, "/"), a), ".html")
+
 		file, err := os.OpenFile(openedDir, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666) //os.Create(path)
 		if err != nil {
 			fmt.Println(err)
@@ -68,9 +75,10 @@ func writeLines(lines []string, path string) /*error*/ {
 }
 
 func main() {
+	flag.Parse()
 	//использавать библ флаг
-	inputFile := os.Args[1]
-	outputFile := os.Args[2]
+	inputFile := *name
+	outputFile := *put
 	lines, err := readLines(inputFile)
 	if err != nil {
 		log.Fatalf("readLines: %s", err)
