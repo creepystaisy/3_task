@@ -13,7 +13,7 @@ import (
 )
 
 var name *string = flag.String("name", "name", "строка")
-var put *string = flag.String("put", "put", "f - вперёд, b - назад")
+var put *string = flag.String("put", "put", "")
 
 func readLines(path string) ([]string, error) {
 	file, err := os.Open(path)
@@ -53,7 +53,7 @@ func writeLines(lines []string, path1 string) /*error*/ {
 		makedDir = path.Join(path1, "/")
 		makedDir = path.Join(makedDir, a) // path.Join(p1, p2)
 		os.MkdirAll(makedDir, 0644)
-		openedDir := path.Join(path.Join(path.Join(path1, "/"), a), ".html")
+		openedDir := path1 + "/" + a + "/" + a + ".html"
 
 		file, err := os.OpenFile(openedDir, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666) //os.Create(path)
 		if err != nil {
